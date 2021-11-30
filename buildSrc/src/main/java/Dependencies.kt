@@ -25,10 +25,17 @@ object Versions {
     const val KOTLIN = "1.5.31"
 
     const val ANDROIDX_CORE = "1.6.0"
+
+    const val COMPOSE = "1.1.0-beta01"
 }
 
 object Libraries {
     const val KOTLIN_STANDARD_LIB = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.KOTLIN}"
 
     const val ANDROIDX_CORE = "androidx.core:core-ktx:${Versions.ANDROIDX_CORE}"
+
+    const val COMPOSE_FOUNDATION = "androidx.compose.foundation:foundation:${Versions.COMPOSE}"
+    const val COMPOSE_UI = "androidx.compose.ui:ui:${Versions.COMPOSE}"
+    const val COMPOSE_MATERIAL = "androidx.compose.material:material:${Versions.COMPOSE}"
+    const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
 }

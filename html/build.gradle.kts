@@ -29,11 +29,17 @@ android {
     }
 
     kotlinOptions.jvmTarget = Config.JVM_TARGET
+    buildFeatures.compose = true
+    composeOptions.kotlinCompilerExtensionVersion = Versions.COMPOSE
 }
 
 dependencies {
     implementation(Libraries.KOTLIN_STANDARD_LIB)
     implementation(Libraries.ANDROIDX_CORE)
+    implementation(Libraries.COMPOSE_FOUNDATION)
+    implementation(Libraries.COMPOSE_UI)
+    implementation(Libraries.COMPOSE_MATERIAL)
+    implementation(Libraries.COMPOSE_UI_TOOLING)
 }
 
 afterEvaluate {
