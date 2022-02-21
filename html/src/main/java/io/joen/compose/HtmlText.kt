@@ -72,15 +72,19 @@ fun HtmlText(
         text = annotatedString,
         style = if (enabled) style else style.disabled(),
         modifier = modifier.semantics {
-            customActions = annotatedString.getCustomActions { uri ->
-                if (!enabled) return@getCustomActions false
-                return@getCustomActions try {
-                    uriHandler.openUri(uri)
-                    true
-                } catch (throwable: Throwable) {
-                    onError(throwable)
-                    false
+            try {
+                customActions = annotatedString.getCustomActions { uri ->
+                    if (!enabled) return@getCustomActions false
+                    return@getCustomActions try {
+                        uriHandler.openUri(uri)
+                        true
+                    } catch (throwable: Throwable) {
+                        onError(throwable)
+                        false
+                    }
                 }
+            } catch (throwable: Throwable) {
+                onError(throwable)
             }
         }
     ) { offset: Int ->

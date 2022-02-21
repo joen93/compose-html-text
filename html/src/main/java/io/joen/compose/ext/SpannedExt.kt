@@ -35,7 +35,7 @@ internal fun Spanned.toAnnotatedString(htmlStyle: HtmlStyle): AnnotatedString {
                 when (span) {
                     is URLSpan -> {
                         addStyle(style, start, end)
-                        addStringAnnotation(ANNOTATION_TAG_URL, span.url, start, end)
+                        span.url?.let { addStringAnnotation(ANNOTATION_TAG_URL, it, start, end) }
                     }
                     else -> addStyle(style, start, end)
                 }
