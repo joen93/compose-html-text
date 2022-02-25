@@ -22,6 +22,7 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import io.joen.compose.ext.ANNOTATION_TAG_URL
 import io.joen.compose.ext.disabled
+import io.joen.compose.ext.openUri
 import io.joen.compose.ext.toAnnotatedString
 
 /**
@@ -66,23 +68,21 @@ fun HtmlText(
     val annotatedString = text.toAnnotatedString(
         htmlStyle = if (enabled) htmlStyle else htmlStyle.disabled()
     )
-    val uriHandler = LocalUriHandler.current
+    val uriHandler: UriHandler = LocalUriHandler.current
+    val a11yActions = annotatedString.getCustomActions {
+        return@getCustomActions if (!enabled) {
+            false
+        } else {
+            uriHandler.openUri(uri = it, onError = onError)
+        }
+    }
 
     ClickableText(
         text = annotatedString,
         style = if (enabled) style else style.disabled(),
         modifier = modifier.semantics {
             try {
-                customActions = annotatedString.getCustomActions { uri ->
-                    if (!enabled) return@getCustomActions false
-                    return@getCustomActions try {
-                        uriHandler.openUri(uri)
-                        true
-                    } catch (throwable: Throwable) {
-                        onError(throwable)
-                        false
-                    }
-                }
+                customActions = a11yActions
             } catch (throwable: Throwable) {
                 onError(throwable)
             }
@@ -93,11 +93,7 @@ fun HtmlText(
             .getStringAnnotations(tag = ANNOTATION_TAG_URL, start = offset, end = offset)
             .firstOrNull()
             ?.let {
-                try {
-                    uriHandler.openUri(it.item)
-                } catch (throwable: Throwable) {
-                    onError(throwable)
-                }
+                uriHandler.openUri(uri = it.item, onError = onError)
             } ?: altClick.invoke()
     }
 }
