@@ -10,7 +10,7 @@ object Plugins {
 object Config {
     const val GROUP_ID = "io.joen.compose"
     const val ARTIFACT_ID = "html-text"
-    const val VERSION_NAME = "0.1.0-alpha02"
+    const val VERSION_NAME = "0.1.0-alpha03"
 
     const val MIN_SDK = 21
     const val COMPILE_SDK = 31
